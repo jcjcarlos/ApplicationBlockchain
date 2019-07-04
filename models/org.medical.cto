@@ -1,0 +1,95 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * Write your model definitions here
+ * http://www.ee.usp.br/reeusp/upload/html/631/body/v36n1a06.htm - tipos de paciente
+ * https://www.enfermeiroaprendiz.com.br/diagnostico-de-enfermagem-tudo-o-que-voce-precisa-saber/ - Modelo de diagnóstico
+ * https://www.hcor.com.br/wp-content/uploads/2018/02/Ficha_Cadastral.pdf - Ficha Cadastral Médico
+ */
+
+namespace org.medical
+
+enum PacientType {
+  o MinimalCare
+  o IntermediateCare
+  o SemiIntensiveCare
+  o IntensiveCare
+}
+
+enum GenderType {
+  o Male
+  o Female
+}
+
+concept Locality {
+  o String street
+  o Integer number
+  o String district
+  o String state
+  o String city
+  o String postalCode //regex=\d{2}[\.]?\d{3}[-]?\d{3}
+}
+
+abstract participant People {
+  o String firstName
+  o String lastName
+  o GenderType gender
+  o DateTime birth optional
+  o String nacionlity
+  //o Locality residential optional
+  o String street
+  o Integer number
+  o String district
+  o String state
+  o String city
+  o String postalCode //regex=\d{2}[\.]?\d{3}[-]?\d{3}
+  //o Locality residential optional
+  o String phone
+  o String cellPhone
+  o String email
+}
+
+participant Pacient identified by cpf extends People {
+  o String cpf //regex=/[0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2}
+  o PacientType pacientType
+  --> Diagnostic[] diagnostics optional
+}
+
+participant Medical identified by crm extends People {
+  o String crm
+  o String specialty
+}
+
+
+asset Diagnostic identified by diagnosticId {
+  o String diagnosticId
+  //--> Pacient owner optional
+  o String title
+  o String definition
+  o String definingCharacteristics
+  o String relatedFactors
+}
+
+transaction DiagnosticTransaction {
+  --> Pacient pacient
+  --> Diagnostic diagnostic
+  o DateTime dataTime optional
+}
+
+//event SampleEvent {
+//  --> SampleAsset asset
+//  o String oldValue
+//  o String newValue
+//}
