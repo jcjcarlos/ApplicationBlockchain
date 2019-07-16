@@ -82,7 +82,7 @@ participant Medical identified by crm extends People {
 asset Prescription identified by prescriptionId {
     o String prescriptionId
     o DateTime date
-    o String pathology
+    o String prescription
     --> Patient patient
     --> Medical medical
 }
@@ -92,7 +92,8 @@ asset ExamResult identified by examResultId {
     --> Patient patient
     --> Medical medical
     o DateTime date
-    o String result
+    o String pathology
+    o String description
 }
 
 

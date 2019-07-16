@@ -1,0 +1,7 @@
+query consultPathology {
+  description: "Select all the Diagnostics that contain certain pathology "
+
+  statement:
+    SELECT org.medical.ExamResult
+    WHERE (_$pathologyParam == pathology)
+}
