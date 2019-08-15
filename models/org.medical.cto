@@ -100,7 +100,7 @@ asset ExamResult identified by examResultId {
 asset Diagnostic identified by diagnosticId {
   o String diagnosticId
   //--> Patient owner optional
-  --> Patient patient optional
+  --> Patient patient
   o String title
   o DateTime date
   o String definition
